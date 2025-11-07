@@ -3,6 +3,6 @@ import {City} from './city';
 export class Restaurant {
 
   name!: string;
-  adress!: string;
+  address!: string;
   city!: City;
 }
