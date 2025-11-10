@@ -10,7 +10,7 @@ import {RestoCard} from './components/resto-card/resto-card';
   selector: 'app-root',
   imports: [RouterOutlet, SearchBar, Header, MapInteractive, CityList, RestoCard],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.scss'
 })
 export class App {
   protected readonly title = signal('MacDoMaps');

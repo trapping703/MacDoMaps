@@ -5,7 +5,11 @@
   "projects": {
     "MacDoMaps": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -22,10 +26,17 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist/images/",
+                "output": "./assets/"
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss",
+              "node_modules/leaflet/dist/leaflet.css"
             ]
           },
           "configurations": {
@@ -82,7 +93,7 @@
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ]
           }
         }

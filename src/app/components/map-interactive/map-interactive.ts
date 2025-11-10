@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'app-map-interactive',
   imports: [],
   templateUrl: './map-interactive.html',
-  styleUrl: './map-interactive.css',
+  styleUrl: './map-interactive.scss',
 })
 export class MapInteractive {
 
