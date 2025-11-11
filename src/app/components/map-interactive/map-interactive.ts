@@ -1,10 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import L from "leaflet";
+import {SearchBar} from '../search-bar/search-bar';
+import {CityList} from '../city-list/city-list';
 
 @Component({
   selector: 'app-map-interactive',
-  imports: [LeafletModule],
+  imports: [LeafletModule, SearchBar, CityList],
   templateUrl: './map-interactive.html',
   styleUrl: './map-interactive.scss',
 })
