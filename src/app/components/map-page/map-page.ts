@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import {CityList} from '../components/city-list/city-list';
-import {SearchBar} from '../components/search-bar/search-bar';
-import {MapInteractive} from '../components/map-interactive/map-interactive';
+import {CityList} from '../city-list/city-list';
+import {SearchBar} from '../search-bar/search-bar';
+import {MapInteractive} from '../map-interactive/map-interactive';
 
 @Component({
   selector: 'app-map-page',
