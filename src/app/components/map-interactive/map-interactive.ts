@@ -11,6 +11,7 @@ import {CityList} from '../city-list/city-list';
   styleUrl: './map-interactive.scss',
 })
 export class MapInteractive implements OnInit {
+
   /**
    * Explications :
    *
@@ -41,6 +42,10 @@ export class MapInteractive implements OnInit {
 
   // Méthode pour ajouter un marqueur
   addMarker(lat: number, lng: number, popupText: string): void {
+    const customOptions = {
+      'maxWidth': 1000,
+      'width': 600
+    };
     const marker = L.marker([lat, lng], {
       icon: L.icon({
         iconSize: [25, 41],
@@ -48,7 +53,7 @@ export class MapInteractive implements OnInit {
         iconUrl: 'assets/marker-icon.png',
         shadowUrl: 'assets/marker-shadow.png',
       }),
-    }).bindPopup(popupText);
+    }).bindPopup('', customOptions);
 
     this.markers.push(marker);
   }
