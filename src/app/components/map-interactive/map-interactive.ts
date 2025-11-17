@@ -25,7 +25,7 @@ export class MapInteractive implements OnInit {
         attribution: '© OpenStreetMap contributors',
       }),
     ],
-    zoom: 13,
+    zoom: 6,
     center: L.latLng(48.8566, 2.3522), // Paris
   };
 
