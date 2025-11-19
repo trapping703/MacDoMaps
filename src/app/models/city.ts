@@ -1,8 +1,8 @@
 export class City{
 
   name!: string;
-  lat!: string;
-  lon!: string;
+  lat!: number;
+  lon!: number;
   display_name!: string;
 
 }

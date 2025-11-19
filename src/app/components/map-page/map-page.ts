@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {CityList} from '../city-list/city-list';
 import {SearchBar} from '../search-bar/search-bar';
 import {MapInteractive} from '../map-interactive/map-interactive';

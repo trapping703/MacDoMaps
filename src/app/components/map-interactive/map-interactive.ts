@@ -1,40 +1,47 @@
 import {Component, OnInit} from '@angular/core';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import L from "leaflet";
-import {SearchBar} from '../search-bar/search-bar';
-import {CityList} from '../city-list/city-list';
+import {Subscription} from 'rxjs';
+import {MapService} from '../../services/MapService';
 
 @Component({
   selector: 'app-map-interactive',
-  imports: [LeafletModule, SearchBar, CityList],
+  imports: [LeafletModule],
   templateUrl: './map-interactive.html',
   styleUrl: './map-interactive.scss',
 })
 export class MapInteractive implements OnInit {
 
-  /**
-   * Explications :
-   *
-   *     tileLayer: Charge les tuiles de carte OpenStreetMap.
-   *     latLng: Définit les coordonnées centrales de la carte.
-   */
-  options = {
-    layers: [
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '© OpenStreetMap contributors',
-      }),
-    ],
-    zoom: 6,
-    center: L.latLng(48.8566, 2.3522), // Paris
-  };
+  subscription: Subscription;
+  map: any;
+
+  constructor(private mapService: MapService) {
+    this.subscription = mapService.selectedCity$.subscribe(city => {
+      this.map.flyTo(L.latLng(city.lat, city.lon), 13);
+
+      var html = `Mac Donald, Place lucien neuwitth, Châteaucreux, Saint-Etienne, Loire, Auvergne Rône-Alpes, France métropolitaine, 42000, France <button type="button" class="btn btn-light btn-outline-dark w-100" (click)="test()"> test</button>`;
 
 
-  // Liste des marqueurs
-  markers: L.Marker[] = [];
+
+      L.marker([city.lat, city.lon], {
+        icon: L.icon({
+          iconSize: [25, 41],
+          iconAnchor: [13, 41],
+          iconUrl: 'assets/marker-icon.png',
+          shadowUrl: 'assets/marker-shadow.png',
+        }),
+      }).bindPopup(html)
+        .addTo(this.map);
+    })
+  }
 
   // Ajouter des marqueurs initiaux
   ngOnInit(): void {
+    this.map = L.map("map").setView([48.8566, 2.3522], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+      attribution: '© OpenStreetMap contributors',
+    }).addTo(this.map);
     this.addMarker(48.8566, 2.3522, 'Bienvenue à Paris !');
     this.addMarker(48.8584, 2.2945, 'Tour Eiffel');
     this.addMarker(48.8606, 2.3376, 'Musée du Louvre');
@@ -54,7 +61,10 @@ export class MapInteractive implements OnInit {
         shadowUrl: 'assets/marker-shadow.png',
       }),
     }).bindPopup('', customOptions);
+    marker.addTo(this.map);
+  }
 
-    this.markers.push(marker);
+  test(): void {
+    this.map.flyTo(L.latLng(48.8566, 2.3522), 13);
   }
 }

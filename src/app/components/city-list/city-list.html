@@ -1,7 +1,7 @@
 <div class="row g-1" >
   @for (city of searchedCities$ | async; track city.name) {
     <div class="col-12">
-      <button type="button" class="btn btn-light btn-outline-dark w-100">
+      <button type="button" class="btn btn-light btn-outline-dark w-100" (click)="selectCity(city)">
         {{ city.display_name }}
       </button>
     </div>

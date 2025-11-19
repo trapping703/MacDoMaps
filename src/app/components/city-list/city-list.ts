@@ -1,9 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {Component, OnDestroy} from '@angular/core';
 import {CityService} from '../../services/CityService';
 import {City} from '../../models/city';
 import {Observable, Subscription} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
+import {MapService} from '../../services/MapService';
 
 @Component({
   selector: 'app-city-list',
@@ -18,7 +18,7 @@ export class CityList implements OnDestroy {
   searchedCities$!: Observable<City[]>;
   subscription: Subscription;
 
-  constructor(private cityService: CityService) {
+  constructor(private cityService: CityService, private mapService: MapService) {
     this.subscription = this.cityService.searchedCities$.subscribe(cities => {
       this.searchedCities$ = cities;
     })
@@ -28,4 +28,7 @@ export class CityList implements OnDestroy {
     this.subscription.unsubscribe();
   }
 
+  selectCity(city: City) {
+    this.mapService.zoomOnSelectedCity(city);
+  }
 }
