@@ -1,12 +1,9 @@
 <div class="row g-1" >
-  <div class="col-12">
-    <button type="button" class="btn btn-light btn-outline-dark w-100" style="--bs-bg-opacity: 1;">
-      Saint Etienne, Loire, 4200 France
-    </button>
-  </div>
-  <div class="col-12">
-    <button type="button" class="btn btn-light btn-outline-dark w-100">
-      Saint Etienne du Rouveray, Normandie, 76800 France
-    </button>
-  </div>
+  @for (city of searchedCities$ | async; track city.name) {
+    <div class="col-12">
+      <button type="button" class="btn btn-light btn-outline-dark w-100">
+        {{ city.display_name }}
+      </button>
+    </div>
+  }
 </div>

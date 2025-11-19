@@ -1,13 +1,13 @@
-<form xmlns="http://www.w3.org/1999/html">
+<form [formGroup]="searchForm">
   <div class="row ">
-    <label class="col-12" for="ville">Recherche un restaurant:</label>
+    <label class="col-12" for="searchBar">Recherche un restaurant:</label>
   </div>
   <div class="row">
     <div class="col-10">
-      <input type="text" id="ville" class="form-control"/>
+      <input type="text" id="searchBar" formControlName="searchBar" class="form-control"/>
     </div>
     <div class="col-1">
-      <button type="button" class="btn btn-warning">
+      <button type="submit" (click)="onSubmitForm()" class="btn btn-warning">
         <!--            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="bi bi-search mt"-->
         <!--                 viewBox="0 0 16 16">-->
         <!--              <path-->
@@ -22,5 +22,6 @@
       </button>
     </div>
     <div class="col-1"></div>
+
   </div>
 </form>
