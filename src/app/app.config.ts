@@ -7,7 +7,8 @@ import {
 import {provideRouter} from '@angular/router';
 
 import {routes} from './app.routes';
-import {provideHttpClient} from '@angular/common/http';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {httpInterceptorProvider} from './interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: LOCALE_ID, useValue: 'fr-FR'
     },
-    provideHttpClient(),
+    httpInterceptorProvider,
+    provideHttpClient(withInterceptorsFromDi()),
   ]
 };
