@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {CityService} from '../../services/CityService';
+import {NominatimService} from '../../services/NominatimService';
 
 @Component({
   selector: 'app-search-bar',
@@ -14,7 +14,7 @@ export class SearchBar implements OnInit {
 
   searchForm!: FormGroup;
 
-  constructor(private cityService: CityService, private fb: FormBuilder) {
+  constructor(private cityService: NominatimService, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {

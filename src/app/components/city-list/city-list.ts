@@ -1,5 +1,5 @@
 import {Component, OnDestroy} from '@angular/core';
-import {CityService} from '../../services/CityService';
+import {NominatimService} from '../../services/NominatimService';
 import {City} from '../../models/city';
 import {Observable, Subscription} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
@@ -18,7 +18,7 @@ export class CityList implements OnDestroy {
   searchedCities$!: Observable<City[]>;
   subscription: Subscription;
 
-  constructor(private cityService: CityService, private mapService: MapService) {
+  constructor(private cityService: NominatimService, private mapService: MapService) {
     this.subscription = this.cityService.searchedCities$.subscribe(cities => {
       this.searchedCities$ = cities;
     })
@@ -29,6 +29,6 @@ export class CityList implements OnDestroy {
   }
 
   selectCity(city: City) {
-    this.mapService.zoomOnSelectedCity(city);
+    this.mapService.selectCity(city);
   }
 }
