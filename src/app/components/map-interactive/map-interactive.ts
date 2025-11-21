@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import L from "leaflet";
 import {map, Subscription} from 'rxjs';
-import {MapService} from '../../services/MapService';
+import {LeafletService} from '../../services/LeafletService';
 import {City} from '../../models/city';
 import {NominatimService} from '../../services/NominatimService';
 import {Restaurant} from '../../models/restaurant';
@@ -18,14 +18,14 @@ export class MapInteractive implements OnInit {
   subscription: Subscription;
   leafletMap: any;
 
-  constructor(private mapService: MapService, private nominatimService: NominatimService) {
-    this.subscription = mapService.selectedCity$.subscribe(city => {
+  constructor(private leafletService: LeafletService, private nominatimService: NominatimService) {
+    this.subscription = leafletService.selectedCity$.subscribe(city => {
       this.zoomToSelectedCity(city);
     })
   }
 
   private zoomToSelectedCity(city: City) {
-    this.mapService.flyToSelectedCity(city, this.leafletMap);
+    this.leafletService.flyToSelectedCity(city, this.leafletMap);
     this.markRestaurant(city);
   }
 
@@ -37,12 +37,12 @@ export class MapInteractive implements OnInit {
 
   private markRestaurants(restaurants: Restaurant[]) {
     for (const restaurant of restaurants) {
-      this.mapService.addMarker(restaurant, this.leafletMap);
+      this.leafletService.addMarker(restaurant, this.leafletMap);
     }
   }
 
   ngOnInit(): void {
-    this.leafletMap = this.mapService.initMap();
+    this.leafletMap = this.leafletService.initMap();
   }
 
   test(): void {

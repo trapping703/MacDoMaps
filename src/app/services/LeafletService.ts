@@ -7,7 +7,7 @@ import {Restaurant} from '../models/restaurant';
 @Injectable({
   providedIn: 'root'
 })
-export class MapService {
+export class LeafletService {
 
   private selectedCity = new Subject<City>();
   selectedCity$: Observable<City> = this.selectedCity.asObservable();

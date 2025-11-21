@@ -3,7 +3,7 @@ import {NominatimService} from '../../services/NominatimService';
 import {City} from '../../models/city';
 import {Observable, Subscription} from 'rxjs';
 import {AsyncPipe} from '@angular/common';
-import {MapService} from '../../services/MapService';
+import {LeafletService} from '../../services/LeafletService';
 
 @Component({
   selector: 'app-city-list',
@@ -18,7 +18,7 @@ export class CityList implements OnDestroy {
   searchedCities$!: Observable<City[]>;
   subscription: Subscription;
 
-  constructor(private cityService: NominatimService, private mapService: MapService) {
+  constructor(private cityService: NominatimService, private mapService: LeafletService) {
     this.subscription = this.cityService.searchedCities$.subscribe(cities => {
       this.searchedCities$ = cities;
     })

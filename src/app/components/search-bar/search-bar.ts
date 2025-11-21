@@ -14,7 +14,7 @@ export class SearchBar implements OnInit {
 
   searchForm!: FormGroup;
 
-  constructor(private cityService: NominatimService, private fb: FormBuilder) {
+  constructor(private nominatimService: NominatimService, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -27,6 +27,6 @@ export class SearchBar implements OnInit {
   }
 
   onSubmitForm(): void {
-    this.cityService.searchPossibleCities(this.searchForm.controls['searchBar'].value);
+    this.nominatimService.searchPossibleCities(this.searchForm.controls['searchBar'].value);
   }
 }
