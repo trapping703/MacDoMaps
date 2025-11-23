@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {City} from '../models/city';
-import {Observable, Subject} from 'rxjs';
+import {EMPTY, Observable, Subject} from 'rxjs';
 import {Restaurant} from '../models/restaurant';
 
 @Injectable({
@@ -18,6 +18,10 @@ export class NominatimService {
   searchPossibleCities(citySearchBar: String): void {
     this.searchedCities.next(this.http.get<City[]>(`https://nominatim.openstreetmap.org/search?city=${citySearchBar}&format=jsonv2`));
     // return this.http.get<City[]>(`https://nominatim.openstreetmap.org/search?city=${citySearchBar}&format=jsonv2`);
+  }
+
+  cleanSearchBar(): void {
+    this.searchedCities.next(EMPTY);
   }
 
   searchRestaurants(city: City): Observable<Restaurant[]> {

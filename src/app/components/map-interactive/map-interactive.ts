@@ -27,6 +27,7 @@ export class MapInteractive implements OnInit {
   private zoomToSelectedCity(city: City) {
     this.leafletService.flyToSelectedCity(city, this.leafletMap);
     this.markRestaurant(city);
+    this.nominatimService.cleanSearchBar();
   }
 
   private markRestaurant(city: City) {
