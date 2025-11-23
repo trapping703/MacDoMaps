@@ -19,7 +19,7 @@ export class MapInteractive implements OnInit {
   leafletMap: any;
 
   constructor(private leafletService: LeafletService, private nominatimService: NominatimService) {
-    this.subscription = leafletService.selectedCity$.subscribe(city => {
+    this.subscription = nominatimService.selectedCity$.subscribe(city => {
       this.zoomToSelectedCity(city);
     })
   }

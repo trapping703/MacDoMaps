@@ -1,19 +1,27 @@
 <div class="card w-100 rounded-0 rounded-top">
   <div class="card-body">
     <div class="card-title fw-bold">
-      Restaurant sélectionné
+      @if (selectedRestaurant$ | async; as restaurant) {
+        Restaurant sélectionné
+      } @else {
+        Aucun restaurant sélectionné
+      }
     </div>
     <div class="card-text">
       <div class="row g-3">
         <div class="col-12">
-          Macdo, Place lucien neuwitth, Châteaucreux, Saint-Etienne, Loire, Auvergne Rône-Alpes, France métropolitaine,
-          42000, France
+          @if (selectedRestaurant$ | async; as restaurant) {
+            <div class="col-12">
+              {{restaurant.display_name}}
+            </div>
+            <div class="col">
+              <button type="button" class="btn btn-warning">
+                Continuer
+              </button>
+            </div>
+          }
         </div>
-        <div class="col">
-          <button type="button" class="btn btn-warning">
-            Continuer
-          </button>
-        </div>
+
       </div>
 
     </div>
