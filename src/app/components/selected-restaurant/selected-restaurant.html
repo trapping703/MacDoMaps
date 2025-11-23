@@ -12,18 +12,16 @@
         <div class="col-12">
           @if (selectedRestaurant$ | async; as restaurant) {
             <div class="col-12">
-              {{restaurant.display_name}}
+              {{ restaurant.display_name }}
             </div>
-            <div class="col">
+            <div class="col pt-3">
               <button type="button" class="btn btn-warning">
                 Continuer
               </button>
             </div>
           }
         </div>
-
       </div>
-
     </div>
   </div>
 </div>

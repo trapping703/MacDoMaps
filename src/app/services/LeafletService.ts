@@ -30,7 +30,14 @@ export class LeafletService {
         iconUrl: 'assets/marker-icon.png',
         shadowUrl: 'assets/marker-shadow.png',
       }),
-    }).bindPopup(`${restaurant.display_name} <button type="button" class="btn btn-warning btn-outline-dark w-40 align-center button-popup"> test</button>`)
+    }).bindPopup(`<div class="row g-1">
+                            <div class="col-12">
+                                ${restaurant.display_name}
+                            </div>
+                            <div class="col-12">
+                                <button type="button" class="btn btn-warning w-40 align-center button-popup"> choisir</button>
+                            </div>
+                        </div>`)
       .on('popupopen', () => {
         const buttons = document.querySelectorAll('.button-popup');
         buttons.forEach(button => {
