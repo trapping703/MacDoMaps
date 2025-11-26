@@ -22,7 +22,7 @@ export class SearchBar implements OnInit {
         searchBar: [null, Validators.required]
       },
       {
-        updateOn: 'blur',
+        updateOn: 'change',
       });
   }
 

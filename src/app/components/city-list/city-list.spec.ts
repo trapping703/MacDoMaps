@@ -1,17 +1,35 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CityList } from './city-list';
+import {CityList} from './city-list';
+import {NominatimService} from '../../services/NominatimService';
+import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
+import {provideHttpClientTesting} from '@angular/common/http/testing';
+import {EMPTY, of} from 'rxjs';
+import {City} from '../../models/city';
 
 describe('CityList', () => {
   let component: CityList;
   let fixture: ComponentFixture<CityList>;
+  let nominatimServiceMock: jasmine.SpyObj<NominatimService>;
+
 
   beforeEach(async () => {
+    const mock = jasmine.createSpyObj('NominatimService', ['selectCity']);
     await TestBed.configureTestingModule({
-      imports: [CityList]
-    })
-    .compileComponents();
+      imports: [CityList],
+      providers: [
+        {provide: NominatimService, useValue: mock},
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+      ],
 
+    })
+      .compileComponents();
+
+    nominatimServiceMock = TestBed.inject(NominatimService) as jasmine.SpyObj<NominatimService>;
+    const city1: City = {name:"test", lat:144, lon:155, display_name:"test"} ;
+    const city2: City = {name:"test2", lat:144, lon:155, display_name:"test2"} ;
+    nominatimServiceMock.searchedCities$ = of(of([city1,city2]));
     fixture = TestBed.createComponent(CityList);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -19,5 +37,17 @@ describe('CityList', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create 2 city result', () => {
+    expect(fixture.nativeElement.ownerDocument.querySelectorAll('.col-12').length).toEqual(2);
+  });
+
+  it('should call select city of service', () => {
+    const button = fixture.nativeElement.ownerDocument.querySelector('.btn');
+    button.click();
+    fixture.whenStable().then(() => {
+      expect(nominatimServiceMock.selectCity).toHaveBeenCalledOnceWith({name:"test", lat:144, lon:155, display_name:"test"});
+    })
   });
 });
