@@ -4,17 +4,22 @@ import {CityList} from './city-list';
 import {NominatimService} from '../../services/NominatimService';
 import {provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import {provideHttpClientTesting} from '@angular/common/http/testing';
-import {EMPTY, of} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {City} from '../../models/city';
 
 describe('CityList', () => {
   let component: CityList;
   let fixture: ComponentFixture<CityList>;
   let nominatimServiceMock: jasmine.SpyObj<NominatimService>;
+  let subjectMock: Subject<Observable<City[]>>;
 
 
   beforeEach(async () => {
-    const mock = jasmine.createSpyObj('NominatimService', ['selectCity','searchedCities','searchedCities$']);
+    subjectMock = new Subject<Observable<City[]>>();
+    const mock = jasmine.createSpyObj('NominatimService', ['selectCity'], {
+      'searchedCities': subjectMock,
+      'searchedCities$': subjectMock.asObservable()
+    });
     await TestBed.configureTestingModule({
       imports: [CityList],
       providers: [
@@ -23,13 +28,11 @@ describe('CityList', () => {
         provideHttpClientTesting()
       ],
 
-    })
-      .compileComponents();
+    }).compileComponents();
 
     nominatimServiceMock = TestBed.inject(NominatimService) as jasmine.SpyObj<NominatimService>;
-    const city1: City = {name:"test", lat:144, lon:155, display_name:"test"} ;
-    const city2: City = {name:"test2", lat:144, lon:155, display_name:"test2"} ;
-    nominatimServiceMock.searchedCities$ = of(of([city1,city2]));
+    const city1: City = {name: "test", lat: 144, lon: 155, display_name: "test"};
+    subjectMock.next(of([city1]));
     fixture = TestBed.createComponent(CityList);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -39,16 +42,23 @@ describe('CityList', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create 2 city result', () => {
-
+  it('should create 2 city result', async () => {
+    const city1: City = {name: "test", lat: 144, lon: 155, display_name: "test"};
+    const city2: City = {name: "test2", lat: 144, lon: 155, display_name: "test2"};
+    subjectMock.next(of([city1, city2]));
+    await fixture.whenStable();
     expect(fixture.nativeElement.ownerDocument.querySelectorAll('.col-12').length).toEqual(2);
   });
 
-  it('should call select city of service', () => {
+  it('should call select city of service', async () => {
     const button = fixture.nativeElement.ownerDocument.querySelector('.btn');
     button.click();
-    fixture.whenStable().then(() => {
-      expect(nominatimServiceMock.selectCity).toHaveBeenCalledOnceWith({name:"test", lat:144, lon:155, display_name:"test"});
+    await fixture.whenStable()
+    expect(nominatimServiceMock.selectCity).toHaveBeenCalledOnceWith({
+      name: "test",
+      lat: 144,
+      lon: 155,
+      display_name: "test"
     })
   });
 });
