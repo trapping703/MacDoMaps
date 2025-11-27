@@ -3,7 +3,6 @@ import {HttpClient} from '@angular/common/http';
 import {City} from '../models/city';
 import {EMPTY, Observable, of, Subject} from 'rxjs';
 import {Restaurant} from '../models/restaurant';
-import L from 'leaflet';
 
 @Injectable({
   providedIn: 'root'

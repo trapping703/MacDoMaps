@@ -14,7 +14,7 @@ describe('CityList', () => {
 
 
   beforeEach(async () => {
-    const mock = jasmine.createSpyObj('NominatimService', ['selectCity']);
+    const mock = jasmine.createSpyObj('NominatimService', ['selectCity','searchedCities','searchedCities$']);
     await TestBed.configureTestingModule({
       imports: [CityList],
       providers: [
@@ -40,6 +40,7 @@ describe('CityList', () => {
   });
 
   it('should create 2 city result', () => {
+
     expect(fixture.nativeElement.ownerDocument.querySelectorAll('.col-12').length).toEqual(2);
   });
 

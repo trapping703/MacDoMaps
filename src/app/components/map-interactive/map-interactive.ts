@@ -45,8 +45,4 @@ export class MapInteractive implements OnInit {
   ngOnInit(): void {
     this.leafletMap = this.leafletService.initMap();
   }
-
-  test(): void {
-    this.leafletMap.flyTo(L.latLng(48.8566, 2.3522), 13);
-  }
 }
