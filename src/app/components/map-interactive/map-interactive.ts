@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
-import L from "leaflet";
 import {map, Subscription} from 'rxjs';
 import {LeafletService} from '../../services/LeafletService';
 import {City} from '../../models/city';
@@ -32,7 +31,7 @@ export class MapInteractive implements OnInit {
 
   private markRestaurant(city: City) {
     this.nominatimService.searchRestaurants(city).pipe(
-      map((restaurants: Restaurant[]) => this.markRestaurants(restaurants)))
+        map((restaurants: Restaurant[]) => this.markRestaurants(restaurants)))
       .subscribe();
   }
 

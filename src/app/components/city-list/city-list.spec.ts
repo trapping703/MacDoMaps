@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
 
 import {CityList} from './city-list';
 import {NominatimService} from '../../services/NominatimService';
@@ -31,8 +31,6 @@ describe('CityList', () => {
     }).compileComponents();
 
     nominatimServiceMock = TestBed.inject(NominatimService) as jasmine.SpyObj<NominatimService>;
-    const city1: City = {name: "test", lat: 144, lon: 155, display_name: "test"};
-    subjectMock.next(of([city1]));
     fixture = TestBed.createComponent(CityList);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -42,23 +40,29 @@ describe('CityList', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create 2 city result', async () => {
+
+  it('should create 2 city result and click on it', fakeAsync(() => {
+    //given
     const city1: City = {name: "test", lat: 144, lon: 155, display_name: "test"};
     const city2: City = {name: "test2", lat: 144, lon: 155, display_name: "test2"};
+    //when
     subjectMock.next(of([city1, city2]));
-    await fixture.whenStable();
+    //then
+    tick();
+    fixture.detectChanges();
     expect(fixture.nativeElement.ownerDocument.querySelectorAll('.col-12').length).toEqual(2);
-  });
 
-  it('should call select city of service', async () => {
     const button = fixture.nativeElement.ownerDocument.querySelector('.btn');
     button.click();
-    await fixture.whenStable()
+
+    tick();
+    fixture.whenStable()
+
     expect(nominatimServiceMock.selectCity).toHaveBeenCalledOnceWith({
       name: "test",
       lat: 144,
       lon: 155,
       display_name: "test"
     })
-  });
+  }));
 });
