@@ -17,7 +17,7 @@ export class MapInteractive implements OnInit {
 
   subscription: Subscription;
   leafletMap: any;
-  private markers: L.Marker[] = <L.Marker[]>[{}];
+  private markers: L.Marker[] = <L.Marker[]>[];
 
   constructor(private leafletService: LeafletService, private nominatimService: NominatimService) {
     this.subscription = nominatimService.selectedCity$.subscribe(city => {
@@ -42,6 +42,7 @@ export class MapInteractive implements OnInit {
     for (const restaurant of restaurants) {
       this.markers.push(this.leafletService.addMarker(restaurant, this.leafletMap));
     }
+    console.log(this.markers);
   }
 
   ngOnInit(): void {
@@ -49,13 +50,12 @@ export class MapInteractive implements OnInit {
   }
 
   cleanAllMarkers(map: L.Map): void {
-    if (this.markers) {
-      for (const marker of this.markers) {
-        if (map.hasLayer(marker)) {
-          map.removeLayer(marker);
-        }
+    for (const marker of this.markers) {
+      if (map.hasLayer(marker)) {
+        map.removeLayer(marker);
       }
-      this.markers = <L.Marker[]>[{}];
     }
+    this.markers = <L.Marker[]>[];
+    console.log(this.markers);
   }
 }
