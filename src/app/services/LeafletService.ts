@@ -12,17 +12,7 @@ export class LeafletService {
   constructor(private nominatimService: NominatimService) {
   }
 
-  initMap(): L.Map {
-    const map = L.map("map").setView([48.8566, 2.3522], 6);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
-      attribution: '© OpenStreetMap contributors',
-    }).addTo(map);
-
-    return map;
-  }
-
-  addMarker(restaurant: Restaurant, map: L.Map): L.Marker {
+  getRename(restaurant: Restaurant): L.Marker {
     return L.marker([restaurant.lat, restaurant.lon], {
       icon: L.icon({
         iconSize: [25, 41],
@@ -54,8 +44,7 @@ export class LeafletService {
             })
           })
         }
-      )
-      .addTo(map);
+      );
   }
 
   flyToSelectedCity(city: City, map: L.Map) {
