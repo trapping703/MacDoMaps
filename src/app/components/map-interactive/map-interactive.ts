@@ -1,11 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LeafletModule} from '@bluehalo/ngx-leaflet';
 import {map, Subscription} from 'rxjs';
 import {LeafletService} from '../../services/LeafletService';
 import {City} from '../../models/city';
 import {NominatimService} from '../../services/NominatimService';
 import {Restaurant} from '../../models/restaurant';
-import L, {latLng, tileLayer} from 'leaflet';
+import L from 'leaflet';
 
 @Component({
   selector: 'app-map-interactive',
@@ -13,30 +13,17 @@ import L, {latLng, tileLayer} from 'leaflet';
   templateUrl: './map-interactive.html',
   styleUrl: './map-interactive.scss',
 })
-export class MapInteractive {
+export class MapInteractive implements OnInit {
 
   subscription: Subscription;
   leafletMap: any;
-  leafletOptions: any;
-  markers: L.Marker[] = <L.Marker[]>[];
+  private markers: L.Marker[] = <L.Marker[]>[{}];
 
   constructor(private leafletService: LeafletService, private nominatimService: NominatimService) {
     this.subscription = nominatimService.selectedCity$.subscribe(city => {
-      this.cleanAllMarkers();
+      this.cleanAllMarkers(this.leafletMap);
       this.zoomToSelectedCity(city);
-    });
-
-    this.leafletOptions = {
-      layers: [
-        tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          maxZoom: 18,
-          attribution: '© OpenStreetMap contributors'
-        })
-      ],
-      zoom: 6,
-      center: latLng(48.8566, 2.3522)
-    };
-
+    })
   }
 
   private zoomToSelectedCity(city: City) {
@@ -53,15 +40,22 @@ export class MapInteractive {
 
   private markRestaurants(restaurants: Restaurant[]) {
     for (const restaurant of restaurants) {
-      this.markers.push(this.leafletService.getRename(restaurant));
+      this.markers.push(this.leafletService.addMarker(restaurant, this.leafletMap));
     }
   }
 
-  cleanAllMarkers(): void {
-    this.markers = <L.Marker[]>[];
+  ngOnInit(): void {
+    this.leafletMap = this.leafletService.initMap();
   }
 
-  onMapReady(map: L.Map): void {
-    this.leafletMap = map;
+  cleanAllMarkers(map: L.Map): void {
+    if (this.markers) {
+      for (const marker of this.markers) {
+        if (map.hasLayer(marker)) {
+          map.removeLayer(marker);
+        }
+      }
+      this.markers = <L.Marker[]>[{}];
+    }
   }
 }
