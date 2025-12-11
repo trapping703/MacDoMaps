@@ -5,6 +5,7 @@ import {LeafletService} from '../../services/LeafletService';
 import {City} from '../../models/city';
 import {NominatimService} from '../../services/NominatimService';
 import {Restaurant} from '../../models/restaurant';
+import L from 'leaflet';
 
 @Component({
   selector: 'app-map-interactive',
@@ -16,9 +17,11 @@ export class MapInteractive implements OnInit {
 
   subscription: Subscription;
   leafletMap: any;
+  private markers: L.Marker[] = <L.Marker[]>[{}];
 
   constructor(private leafletService: LeafletService, private nominatimService: NominatimService) {
     this.subscription = nominatimService.selectedCity$.subscribe(city => {
+      this.cleanAllMarkers(this.leafletMap);
       this.zoomToSelectedCity(city);
     })
   }
@@ -31,17 +34,29 @@ export class MapInteractive implements OnInit {
 
   private markRestaurant(city: City) {
     this.nominatimService.searchRestaurants(city).pipe(
-        map((restaurants: Restaurant[]) => this.markRestaurants(restaurants)))
+      map((restaurants: Restaurant[]) => this.markRestaurants(restaurants)))
       .subscribe();
   }
 
   private markRestaurants(restaurants: Restaurant[]) {
     for (const restaurant of restaurants) {
-      this.leafletService.addMarker(restaurant, this.leafletMap);
+      this.markers.push(this.leafletService.addMarker(restaurant, this.leafletMap));
+      console.log(this.markers);
     }
   }
 
   ngOnInit(): void {
     this.leafletMap = this.leafletService.initMap();
+  }
+
+  cleanAllMarkers(map: L.Map): void {
+    if (this.markers) {
+      for (const marker of this.markers) {
+        if (map.hasLayer(marker)) {
+          map.removeLayer(marker);
+        }
+      }
+      this.markers = <L.Marker[]>[{}];
+    }
   }
 }
