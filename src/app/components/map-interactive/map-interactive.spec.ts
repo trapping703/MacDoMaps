@@ -65,6 +65,6 @@ describe('MapInteractive', () => {
     expect(leafletServiceMock.initMap).toHaveBeenCalledTimes(1);
     expect(leafletServiceMock.flyToSelectedCity).toHaveBeenCalledTimes(1);
     expect(nominatimServiceMock.searchRestaurants).toHaveBeenCalledOnceWith(city1);
-    expect(leafletServiceMock.getRename).toHaveBeenCalledTimes(2);
+    expect(leafletServiceMock.addMarker).toHaveBeenCalledTimes(2);
   });
 });
