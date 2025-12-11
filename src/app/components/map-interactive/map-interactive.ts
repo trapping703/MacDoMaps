@@ -55,12 +55,10 @@ export class MapInteractive {
     for (const restaurant of restaurants) {
       this.markers.push(this.leafletService.getRename(restaurant));
     }
-    console.log(this.markers);
   }
 
   cleanAllMarkers(): void {
     this.markers = <L.Marker[]>[];
-    console.log(this.markers);
   }
 
   onMapReady(map: L.Map): void {
