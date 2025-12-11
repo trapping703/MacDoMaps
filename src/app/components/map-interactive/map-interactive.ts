@@ -17,7 +17,7 @@ export class MapInteractive implements OnInit {
 
   subscription: Subscription;
   leafletMap: any;
-  private markers: L.Marker[] = <L.Marker[]>[{}];
+  private markers: L.Marker[] = <L.Marker[]>[];
 
   constructor(private leafletService: LeafletService, private nominatimService: NominatimService) {
     this.subscription = nominatimService.selectedCity$.subscribe(city => {
@@ -55,7 +55,7 @@ export class MapInteractive implements OnInit {
           map.removeLayer(marker);
         }
       }
-      this.markers = <L.Marker[]>[{}];
+      this.markers = <L.Marker[]>[];
     }
   }
 }
