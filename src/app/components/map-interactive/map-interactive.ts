@@ -41,7 +41,6 @@ export class MapInteractive implements OnInit {
   private markRestaurants(restaurants: Restaurant[]) {
     for (const restaurant of restaurants) {
       this.markers.push(this.leafletService.addMarker(restaurant, this.leafletMap));
-      console.log(this.markers);
     }
   }
 
